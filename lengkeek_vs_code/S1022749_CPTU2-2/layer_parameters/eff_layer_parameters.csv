@@ -1,0 +1,26 @@
+index,soil_id,top_elevation_m_nap,bottom_elevation_m_nap,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
+1,Organic clay 1,-1.51,-2.05,1.92,15.5,15.5,1.5,0.5,15.0,0.0,above_range_clipped
+2,Sand 1,-2.05,-4.39,9.89,17.5,19.5,29.66,0.0,31.2,1.2,interpolated
+3,Organic clay 2,-4.39,-5.55,0.56,15.5,15.5,1.5,0.5,15.0,0.0,above_range_clipped
+4,Organic clay 3,-5.55,-5.91,0.42,14.8,14.8,1.24,0.5,15.0,0.0,interpolated
+5,Peat 1,-5.91,-6.99,0.52,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+6,Organic clay 4,-6.99,-7.37,0.48,15.3,15.3,1.44,0.5,15.0,0.0,interpolated
+7,Clay & silt 1,-7.37,-8.53,0.51,15.0,15.0,1.5,0.0,22.5,0.0,below_range_clipped
+8,Peat 2,-8.53,-9.51,0.62,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+9,Clay & silt 2,-9.51,-11.31,0.79,15.3,15.3,1.67,0.56,22.5,0.0,interpolated
+10,Sand 2,-11.31,-12.11,5.21,17.0,19.0,15.63,0.0,30.1,0.1,interpolated
+11,Sand mixtures 1,-12.11,-12.83,3.77,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+12,Silty clay / clayey silt 1,-12.83,-13.29,1.16,19.2,19.2,2.16,0.16,28.9,0.0,interpolated
+13,Sand 3,-13.29,-14.01,6.72,17.2,19.2,20.15,0.0,30.4,0.4,interpolated
+14,Sand mixtures 2,-14.01,-14.79,3.64,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+15,Silty clay / clayey silt 2,-14.79,-15.89,1.18,19.2,19.2,2.18,0.18,29.0,0.0,interpolated
+16,Clay & silt 3,-15.89,-16.61,0.87,15.7,15.7,1.83,1.09,22.5,0.0,interpolated
+17,Silty clay / clayey silt 3,-16.61,-17.35,1.04,19.0,19.0,2.04,0.04,28.8,0.0,interpolated
+18,Clay & silt 4,-17.35,-18.01,0.83,15.5,15.5,1.75,0.84,22.5,0.0,interpolated
+19,Silty clay / clayey silt 4,-18.01,-18.41,1.23,19.2,19.2,2.23,0.23,29.0,0.0,interpolated
+20,Sand 4,-18.41,-30.33,18.15,18.5,20.5,59.95,0.0,34.1,4.1,interpolated
+21,Sand 5,-30.33,-36.69,20.2,18.8,20.8,69.68,0.0,35.1,5.1,interpolated
+22,Sand 6,-36.69,-37.69,36.36,19.5,21.5,92.5,0.0,37.5,7.5,above_range_clipped
+23,Sand 7,-37.69,-39.09,24.18,19.4,21.4,88.63,0.0,37.1,7.1,interpolated
+24,Sand 8,-39.09,-39.83,15.29,18.0,20.0,46.37,0.0,32.6,2.6,interpolated
+25,Sand mixtures 3,-39.83,-41.43,4.94,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped

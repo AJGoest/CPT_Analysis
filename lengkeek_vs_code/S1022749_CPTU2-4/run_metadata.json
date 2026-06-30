@@ -1,0 +1,14 @@
+{
+    "gef_file": "C:\\AA_Thesis\\CPT_Measurements\\Campus-Zuid\\After-boren\\S1022749_CPTU2-4.gef",
+    "output_dir": "S1022749_CPTU2-4",
+    "cpt_start_level_m_nap": -1.32,
+    "groundwater_level_m_nap": -1.4000000000000001,
+    "groundwater_source": "first CPT measurement point",
+    "net_area_ratio": 0.58,
+    "classification_settings": {
+        "use_bqt": true,
+        "min_layer_thickness_m": 0.3
+    },
+    "x": 85994.98,
+    "y": 445048.61
+}

@@ -1,0 +1,24 @@
+index,soil_id,top_elevation_m_nap,bottom_elevation_m_nap,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
+1,Organic clay 1,-1.56,-1.74,0.46,15.1,15.1,1.35,0.5,15.0,0.0,interpolated
+2,Sand mixtures 1,-1.74,-2.04,3.49,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+3,Sand 1,-2.04,-4.46,11.98,17.7,19.7,35.93,0.0,31.7,1.7,interpolated
+4,Peat 1,-4.46,-5.4,0.59,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+5,Organic clay 2,-5.4,-6.16,0.4,14.7,14.7,1.16,0.5,15.0,0.0,interpolated
+6,Peat 2,-6.16,-7.26,0.54,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+7,Organic clay 3,-7.26,-8.1,0.45,15.1,15.1,1.34,0.5,15.0,0.0,interpolated
+8,Clay & silt 1,-8.1,-8.88,0.47,15.0,15.0,1.5,0.0,22.5,0.0,below_range_clipped
+9,Peat 3,-8.88,-9.66,0.63,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+10,Clay & silt 2,-9.66,-10.64,0.57,15.0,15.0,1.5,0.0,22.5,0.0,below_range_clipped
+11,Silty clay / clayey silt 1,-10.64,-11.5,1.35,19.3,19.3,2.35,0.35,29.2,0.0,interpolated
+12,Sand mixtures 2 + Sand mixtures 3 + Sand mixtures 4,-11.5,-14.8,3.36,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+13,Silty clay / clayey silt 2,-14.8,-15.74,1.27,19.3,19.3,2.27,0.27,29.1,0.0,interpolated
+14,Clay & silt 3,-15.74,-17.86,1.07,16.4,16.4,2.2,2.34,22.5,0.0,interpolated
+15,Clay & silt 4,-17.86,-18.78,1.88,19.0,19.0,4.73,8.46,23.5,0.0,interpolated
+16,Sand 2,-18.78,-25.62,18.73,18.6,20.6,62.71,0.0,34.4,4.4,interpolated
+17,Sand 3,-25.62,-27.64,13.92,17.9,19.9,41.77,0.0,32.2,2.2,interpolated
+18,Sand mixtures 5,-27.64,-28.16,4.73,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+19,Sand 4,-28.16,-36.66,19.81,18.7,20.7,67.86,0.0,34.9,4.9,interpolated
+20,Sand mixtures 6,-36.66,-37.4,10.15,18.5,20.5,22.5,0.0,27.5,0.0,above_range_clipped
+21,Sand 5,-37.4,-38.96,28.45,19.5,21.5,92.5,0.0,37.5,7.5,above_range_clipped
+22,Sand 6,-38.96,-40.06,13.79,17.9,19.9,41.36,0.0,32.2,2.2,interpolated
+23,Sand mixtures 7,-40.06,-41.54,4.25,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped

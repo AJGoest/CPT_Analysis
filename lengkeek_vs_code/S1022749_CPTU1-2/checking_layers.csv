@@ -1,0 +1,26 @@
+layer_id,top_elevation_m_nap,bottom_elevation_m_nap,soil_type
+Organic clay 1,-1.56,-1.74,Organic clay
+Sand mixtures 1,-1.74,-2.04,Sand mixtures
+Sand 1,-2.04,-4.46,Sand
+Peat 1,-4.46,-5.4,Peat
+Organic clay 2,-5.4,-6.16,Organic clay
+Peat 2,-6.16,-7.26,Peat
+Organic clay 3,-7.26,-8.1,Organic clay
+Clay & silt 1,-8.1,-8.88,Clay & silt
+Peat 3,-8.88,-9.66,Peat
+Clay & silt 2,-9.66,-10.64,Clay & silt
+Silty clay / clayey silt 1,-10.64,-11.5,Silty clay / clayey silt
+Sand mixtures 2,-11.5,-11.98,Sand mixtures
+Sand mixtures 3,-11.98,-14.06,Sand mixtures
+Sand mixtures 4,-14.06,-14.8,Sand mixtures
+Silty clay / clayey silt 2,-14.8,-15.74,Silty clay / clayey silt
+Clay & silt 3,-15.74,-17.86,Clay & silt
+Clay & silt 4,-17.86,-18.78,Clay & silt
+Sand 2,-18.78,-25.62,Sand
+Sand 3,-25.62,-27.64,Sand
+Sand mixtures 5,-27.64,-28.16,Sand mixtures
+Sand 4,-28.16,-36.66,Sand
+Sand mixtures 6,-36.66,-37.4,Sand mixtures
+Sand 5,-37.4,-38.959999999999994,Sand
+Sand 6,-38.959999999999994,-40.059999999999995,Sand
+Sand mixtures 7,-40.059999999999995,-41.54,Sand mixtures
