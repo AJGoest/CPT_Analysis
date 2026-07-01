@@ -38,7 +38,7 @@ import json
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\Pre-boren\S1022749_CPTU1-4.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-2.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"'
-GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Wezep\2300654_S11.gef"
+GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Wezep\2300654_S13.gef"
 
 
 
@@ -101,7 +101,7 @@ USE_BQT = True
 # "layer_ids"
 #     Plot only points whose layer_id is listed in SELECTED_LAYER_IDS.
 #
-PLOT_SELECTION_MODE = "layer_ids"
+PLOT_SELECTION_MODE = "all"
 
 # Used only when PLOT_SELECTION_MODE = "soil_types".
 SELECTED_SOIL_TYPES = [
