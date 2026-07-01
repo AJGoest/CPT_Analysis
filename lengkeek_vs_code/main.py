@@ -37,7 +37,8 @@ import json
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\Pre-boren\S1022749_CPTU1-2.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\Pre-boren\S1022749_CPTU1-4.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-2.gef"
-GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"
+# GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"'
+GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Wezep\2300654_S11.gef"
 
 
 
@@ -120,7 +121,7 @@ SELECTED_LAYER_IDS = [
 ]
 
 # Distribution plots for the selected points/layers.
-PLOT_LAYER_DISTRIBUTION = True
+PLOT_LAYER_DISTRIBUTION = False
 
 # Variables to plot in the distribution figures.
 DISTRIBUTION_VARIABLES = [

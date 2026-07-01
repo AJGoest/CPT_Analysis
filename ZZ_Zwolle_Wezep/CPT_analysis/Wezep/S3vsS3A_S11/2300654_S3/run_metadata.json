@@ -1,0 +1,14 @@
+{
+    "gef_file": "C:\\AA_Thesis\\CPT_Measurements\\Wezep\\2300654_S3.gef",
+    "output_dir": "2300654_S3",
+    "cpt_start_level_m_nap": 3.53,
+    "groundwater_level_m_nap": 3.52,
+    "groundwater_source": "first CPT measurement point",
+    "net_area_ratio": 0.8,
+    "classification_settings": {
+        "use_bqt": true,
+        "min_layer_thickness_m": 0.3
+    },
+    "x": 195988.56,
+    "y": 497433.34
+}

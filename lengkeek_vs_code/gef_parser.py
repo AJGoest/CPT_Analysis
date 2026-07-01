@@ -177,24 +177,72 @@ def read_gef(path: str | Path) -> GEFData:
     if not col_names:
         raise ValueError("No #COLUMNINFO records found. Cannot map GEF columns.")
 
+    
+    # Supports both when reading GEF:
+    #   whitespace-separated rows
+    #   semicolon-separated GEF rows ending with !
     rows: List[List[float]] = []
 
-    for line in data_text.splitlines():
-        line = line.strip()
+    column_separator = headers.get("COLUMNSEPARATOR", "").strip()
+    record_separator = headers.get("RECORDSEPARATOR", "").strip()
+
+    if column_separator == "":
+        column_separator = None
+
+    if record_separator == "":
+        record_separator = None
+
+    for raw_line in data_text.splitlines():
+        line = raw_line.strip()
 
         if not line or line.startswith("#"):
             continue
 
-        try:
-            values = [float(v) for v in re.split(r"\s+", line) if v]
-        except ValueError:
+        # Remove GEF record separator, usually "!"
+        if record_separator is not None:
+            line = line.replace(record_separator, "")
+
+        # Also remove "!" even if the header was not parsed correctly
+        line = line.replace("!", "")
+
+        line = line.strip()
+
+        if not line:
             continue
+
+        # Decide separator
+        if column_separator is not None and column_separator in line:
+            parts = [p.strip() for p in line.split(column_separator)]
+        elif ";" in line:
+            parts = [p.strip() for p in line.split(";")]
+        else:
+            parts = [p.strip() for p in re.split(r"\s+", line)]
+
+        values = []
+
+        for part in parts:
+            part = part.strip()
+
+            if part == "":
+                continue
+
+            # Dutch decimal comma safety
+            part = part.replace(",", ".")
+
+            try:
+                values.append(float(part))
+            except ValueError:
+                values = []
+                break
 
         if values:
             rows.append(values)
 
     if not rows:
-        raise ValueError("No numeric measurement rows found after #EOH=.")
+        raise ValueError(
+            "No numeric measurement rows found after #EOH=. "
+            "Check COLUMNSEPARATOR/RECORDSEPARATOR handling."
+        )
 
     max_cols = max(len(row) for row in rows)
     names = [col_names.get(i, f"col_{i}") for i in range(1, max_cols + 1)]

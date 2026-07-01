@@ -1,0 +1,9 @@
+layer_id,top_elevation_m_nap,bottom_elevation_m_nap,soil_type
+"Soil, fine grain 1",3.52,3.44,"Soil, fine grain"
+Silty clay / clayey silt 1,3.44,2.84,Silty clay / clayey silt
+Clay & silt 1,2.84,2.42,Clay & silt
+Sand mixtures 1,2.42,0.23999999999999977,Sand mixtures
+Sand 1,0.23999999999999977,-7.48,Sand
+Sand mixtures 2,-7.48,-9.42,Sand mixtures
+Sand 2,-9.42,-11.0,Sand
+Sand 3,-11.0,-11.4,Sand
