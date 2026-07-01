@@ -1,0 +1,12 @@
+top_elevation_m_nap,bottom_elevation_m_nap,top_depth_m,bottom_depth_m,soil_type,thickness_m,soil_layer_number,layer_id
+1.46,1.38,0.02,0.1,"Soil, fine grain",0.08,1,"Soil, fine grain 1"
+1.38,1.0,0.1,0.48,Sand mixtures,0.38,1,Sand mixtures 1
+1.0,0.54,0.48,0.94,Sand,0.45999999999999996,1,Sand 1
+0.54,-0.98,0.94,2.46,Sand mixtures,1.52,2,Sand mixtures 2
+-0.98,-2.1,2.46,3.58,Sand,1.12,2,Sand 2
+-2.1,-2.44,3.58,3.92,Sand mixtures,0.33999999999999986,3,Sand mixtures 3
+-2.44,-4.220000000000001,3.92,5.7,Sand,1.7800000000000002,3,Sand 3
+-4.220000000000001,-5.24,5.7,6.72,Sand mixtures,1.0199999999999996,4,Sand mixtures 4
+-5.24,-12.5,6.72,13.98,Sand,7.260000000000001,4,Sand 4
+-12.5,-17.54,13.98,19.02,Sand,5.039999999999999,5,Sand 5
+-17.54,-23.84,19.02,25.32,Sand,6.300000000000001,6,Sand 6

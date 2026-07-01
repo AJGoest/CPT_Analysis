@@ -1,0 +1,5 @@
+top_elevation_m_nap,bottom_elevation_m_nap,top_depth_m,bottom_depth_m,soil_type,thickness_m,soil_layer_number,layer_id
+1.43,1.1099999999999999,0.02,0.34,Clay & silt,0.32,1,Clay & silt 1
+1.1099999999999999,-2.2300000000000004,0.34,3.68,Sand,3.3400000000000003,1,Sand 1
+-2.2300000000000004,-4.59,3.68,6.04,Sand,2.36,2,Sand 2
+-4.59,-33.589999999999996,6.04,35.04,Sand,29.0,3,Sand 3

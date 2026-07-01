@@ -1,0 +1,14 @@
+{
+    "gef_file": "C:\\AA_Thesis\\CPT_Measurements\\Zwolle\\61251107_16.GEF",
+    "output_dir": "61251107_16",
+    "cpt_start_level_m_nap": 1.43,
+    "groundwater_level_m_nap": 1.41,
+    "groundwater_source": "first CPT measurement point",
+    "net_area_ratio": 0.67,
+    "classification_settings": {
+        "use_bqt": true,
+        "min_layer_thickness_m": 0.3
+    },
+    "x": 202721.81,
+    "y": 503437.55
+}

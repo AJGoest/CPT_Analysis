@@ -1,0 +1,11 @@
+layer_id,top_elevation_m_nap,bottom_elevation_m_nap,soil_type
+Clay & silt 1,1.41,1.0499999999999998,Clay & silt
+Sand 1,1.0499999999999998,0.010000000000000009,Sand
+Sand mixtures 1,0.010000000000000009,-0.9299999999999999,Sand mixtures
+Peat 1,-0.9299999999999999,-2.25,Peat
+Sand 2,-2.25,-4.19,Sand
+Sand mixtures 2,-4.19,-4.67,Sand mixtures
+Sand 3,-4.67,-11.85,Sand
+Sand 4,-11.85,-31.71,Sand
+Sand 5,-31.71,-32.67,Sand
+Sand 6,-32.67,-33.77,Sand

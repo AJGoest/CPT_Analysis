@@ -38,7 +38,7 @@ import json
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\Pre-boren\S1022749_CPTU1-4.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-2.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"'
-GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Wezep\2300654_S13.gef"
+GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Zwolle\61251107_205.GEF"
 
 
 

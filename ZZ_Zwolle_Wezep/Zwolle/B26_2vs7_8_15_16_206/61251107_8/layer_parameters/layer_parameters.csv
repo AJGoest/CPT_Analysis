@@ -1,0 +1,10 @@
+soil_id,top_elevation_m_nap,bottom_elevation_m_nap,soil depth_m,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
+Clay & silt 1,1.46,1.34,0.1200000000000001,0.35,15.0,15.0,1.5,0.0,22.5,0.0,below_range_clipped
+Sand mixtures 1,1.34,1.04,0.2999999999999998,2.41,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 1,1.04,0.08,0.96,9.87,17.5,19.5,29.62,0.0,31.2,1.2,interpolated
+Sand mixtures 2,0.08,-0.68,0.7600000000000002,2.63,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Peat 1,-0.68,-1.8,1.1199999999999997,1.08,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+Sand 2,-1.8,-3.58,1.7799999999999998,9.98,17.5,19.5,29.94,0.0,31.2,1.2,interpolated
+Sand mixtures 3,-3.58,-4.7,1.1199999999999997,3.77,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 3,-4.7,-22.64,17.94,14.97,18.0,20.0,44.9,0.0,32.5,2.5,interpolated
+Sand mixtures 4,-22.64,-23.56,0.9199999999999982,3.07,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped

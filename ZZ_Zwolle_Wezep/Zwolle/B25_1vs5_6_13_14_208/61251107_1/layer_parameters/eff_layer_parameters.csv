@@ -1,0 +1,7 @@
+index,soil_id,top_elevation_m_nap,bottom_elevation_m_nap,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
+1,Silty clay / clayey silt 1,1.46,1.16,2.27,20.4,20.4,3.82,1.59,30.3,0.0,interpolated
+2,Sand 1,1.16,-0.28,9.17,17.4,19.4,27.52,0.0,31.0,1.0,interpolated
+3,Organic clay 1,-0.28,-0.74,0.59,15.5,15.5,1.5,0.5,15.0,0.0,above_range_clipped
+4,Peat 1,-0.74,-1.52,0.86,12.5,12.5,0.75,3.75,15.0,0.0,above_range_clipped
+5,Sand 2,-1.52,-14.04,14.43,17.9,19.9,43.3,0.0,32.4,2.4,interpolated
+6,Sand 3,-14.04,-23.54,24.2,19.4,21.4,88.71,0.0,37.1,7.1,interpolated

@@ -1,0 +1,11 @@
+layer_id,top_elevation_m_nap,bottom_elevation_m_nap,soil_type
+"Soil, fine grain 1",1.51,1.25,"Soil, fine grain"
+Sand 1,1.25,-1.6500000000000001,Sand
+Sand 2,-1.6500000000000001,-3.8899999999999997,Sand
+Sand 3,-3.8899999999999997,-6.43,Sand
+Sand 4,-6.43,-11.430000000000001,Sand
+Sand 5,-11.430000000000001,-12.47,Sand
+Sand 6,-12.47,-17.349999999999998,Sand
+Sand 7,-17.349999999999998,-19.83,Sand
+Sand 8,-19.83,-20.63,Sand
+Sand 9,-20.63,-23.59,Sand

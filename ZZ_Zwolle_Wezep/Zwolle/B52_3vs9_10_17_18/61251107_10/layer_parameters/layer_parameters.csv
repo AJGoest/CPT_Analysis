@@ -1,0 +1,12 @@
+soil_id,top_elevation_m_nap,bottom_elevation_m_nap,soil depth_m,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
+"Soil, fine grain 1",1.46,1.38,0.08000000000000007,0.22,14.0,14.0,1.0,0.0,17.5,0.0,below_range_clipped
+Sand mixtures 1,1.38,1.0,0.3799999999999999,2.88,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 1,1.0,0.54,0.45999999999999996,5.37,17.0,19.0,16.12,0.0,30.1,0.1,interpolated
+Sand mixtures 2,0.54,-0.98,1.52,2.7,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 2,-0.98,-2.1,1.12,7.83,17.3,19.3,23.48,0.0,30.7,0.7,interpolated
+Sand mixtures 3,-2.1,-2.44,0.33999999999999986,4.47,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 3,-2.44,-4.22,1.7800000000000007,7.99,17.3,19.3,23.96,0.0,30.7,0.7,interpolated
+Sand mixtures 4,-4.22,-5.24,1.0199999999999996,3.38,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
+Sand 4,-5.24,-12.5,7.26,11.03,17.6,19.6,33.1,0.0,31.5,1.5,interpolated
+Sand 5,-12.5,-17.54,5.039999999999999,16.66,18.2,20.2,52.87,0.0,33.3,3.3,interpolated
+Sand 6,-17.54,-23.84,6.300000000000001,20.63,18.8,20.8,71.75,0.0,35.3,5.3,interpolated

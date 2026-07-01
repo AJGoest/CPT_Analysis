@@ -1,0 +1,12 @@
+layer_id,top_elevation_m_nap,bottom_elevation_m_nap,soil_type
+"Soil, fine grain 1",1.46,1.38,"Soil, fine grain"
+Sand mixtures 1,1.38,1.0,Sand mixtures
+Sand 1,1.0,0.54,Sand
+Sand mixtures 2,0.54,-0.98,Sand mixtures
+Sand 2,-0.98,-2.1,Sand
+Sand mixtures 3,-2.1,-2.44,Sand mixtures
+Sand 3,-2.44,-4.220000000000001,Sand
+Sand mixtures 4,-4.220000000000001,-5.24,Sand mixtures
+Sand 4,-5.24,-12.5,Sand
+Sand 5,-12.5,-17.54,Sand
+Sand 6,-17.54,-23.84,Sand
