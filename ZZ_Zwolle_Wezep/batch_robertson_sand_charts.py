@@ -36,11 +36,30 @@ OUTPUT_FOLDER_NAME = "robertson_charts"
 # one classified_points.csv somewhere below it.
 BOREHOLE_NAME_CONTAINS = "vs"
 
-# Plot appearance.
+# =============================================================================
+# Plot appearance
+# =============================================================================
 POINT_SIZE = 8
 POINT_ALPHA = 0.15
 ELLIPSE_LINEWIDTH = 2.0
 CENTRE_SIZE = 120
+
+# Fixed colour list so each CPT gets its own colour.
+# Points, centre marker, and ellipse will all use the same CPT colour.
+CPT_COLOURS = [
+    "#1f77b4",  # blue
+    "#ff7f0e",  # orange
+    "#2ca02c",  # green
+    "#d62728",  # red
+    "#9467bd",  # purple
+    "#8c564b",  # brown
+    "#e377c2",  # pink
+    "#7f7f7f",  # grey
+    "#bcbd22",  # olive
+    "#17becf",  # cyan
+    "#003f5c",  # dark blue
+    "#ffa600",  # amber
+]
 
 
 # =============================================================================
@@ -182,38 +201,49 @@ def plot_borehole_robertson_chart(
     stats_rows = []
     plotted_anything = False
 
-    for cpt_folder in cpt_folders:
-        sand_df = load_sand_points(cpt_folder)
+    for cpt_index, cpt_folder in enumerate(cpt_folders):
+        colour = CPT_COLOURS[cpt_index % len(CPT_COLOURS)]
 
-        if sand_df.empty:
-            print(f"Warning: no Sand X points in {cpt_folder}")
+        try:
+            sand_data = load_sand_points(cpt_folder)
+        except Exception as exc:
+            print(f"Warning: could not load {cpt_folder}: {exc}")
             continue
 
-        x = sand_df["log_rf_percent"].to_numpy(dtype=float)
-        y = sand_df["log_qt_over_pa"].to_numpy(dtype=float)
+        if sand_data.empty:
+            print(f"Warning: no Sand X data found in {cpt_folder}")
+            continue
 
-        scatter = ax.scatter(
+        x = sand_data["log_rf_percent"].values
+        y = sand_data["log_qt_over_pa"].values
+
+        # Plot individual points
+        ax.scatter(
             x,
             y,
             s=POINT_SIZE,
             alpha=POINT_ALPHA,
+            color=colour,
             label=f"{cpt_folder.name} points",
             zorder=2,
         )
 
-        centre = ax.scatter(
-            np.mean(x),
-            np.mean(y),
+        # Plot centre
+        x_mean = np.mean(x)
+        y_mean = np.mean(y)
+
+        ax.scatter(
+            x_mean,
+            y_mean,
             s=CENTRE_SIZE,
             marker="x",
             linewidths=3,
+            color=colour,
             label=f"{cpt_folder.name} centre",
             zorder=4,
         )
 
-        # Use the automatically assigned colour for the ellipse.
-        colour = centre.get_edgecolors()[0]
-
+        # Plot covariance / confidence ellipse
         add_covariance_ellipse(
             ax,
             x,
@@ -223,23 +253,23 @@ def plot_borehole_robertson_chart(
             zorder=3,
         )
 
-        sand_layers = sorted(sand_df["layer_id"].dropna().unique())
-
-        stats_rows.append(
-            {
-                "borehole_folder": str(borehole_folder),
-                "cpt_name": cpt_folder.name,
-                "n_points": len(sand_df),
-                "sand_layers": ", ".join(sand_layers),
-                "confidence": confidence,
-                "centre_Rf_percent": 10.0 ** np.mean(x),
-                "centre_qt_over_pa": 10.0 ** np.mean(y),
-                "std_log10_Rf": np.std(x, ddof=1) if len(x) > 1 else np.nan,
-                "std_log10_qt_over_pa": np.std(y, ddof=1) if len(y) > 1 else np.nan,
-            }
-        )
-
         plotted_anything = True
+
+        stats_rows.append({
+            "cpt_name": cpt_folder.name,
+            "n_points": len(sand_data),
+            "centre_rf_percent": 10 ** x_mean,
+            "centre_qt_over_pa": 10 ** y_mean,
+            "std_log10_rf_percent": np.std(x, ddof=1) if len(x) > 1 else np.nan,
+            "std_log10_qt_over_pa": np.std(y, ddof=1) if len(y) > 1 else np.nan,
+        })
+
+        print(
+            f"{cpt_folder.name}: "
+            f"n = {len(sand_data)}, "
+            f"centre Rf = {10**x_mean:.3f} %, "
+            f"centre qt/pa = {10**y_mean:.3f}"
+        )
 
     if not plotted_anything:
         plt.close(fig)
@@ -247,20 +277,30 @@ def plot_borehole_robertson_chart(
         return None
 
     conf_label = str(confidence).replace(".", "p")
+
     title = (
         f"Robertson chart — all Sand X layers\n"
         f"{borehole_folder.name} | confidence = {confidence}"
     )
+
     ax.set_title(title)
     ax.legend(fontsize=7, loc="best")
 
     fig.tight_layout()
 
-    png_path = output_folder / f"{make_safe_filename(borehole_folder.name)}_sand_robertson_conf_{conf_label}.png"
+    png_path = (
+        output_folder
+        / f"{make_safe_filename(borehole_folder.name)}_sand_robertson_conf_{conf_label}.png"
+    )
+
     fig.savefig(png_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
-    stats_path = output_folder / f"{make_safe_filename(borehole_folder.name)}_sand_robertson_conf_{conf_label}_stats.csv"
+    stats_path = (
+        output_folder
+        / f"{make_safe_filename(borehole_folder.name)}_sand_robertson_conf_{conf_label}_stats.csv"
+    )
+
     pd.DataFrame(stats_rows).to_csv(stats_path, index=False)
 
     print(f"Saved: {png_path}")
