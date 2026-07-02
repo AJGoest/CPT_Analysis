@@ -1,0 +1,4 @@
+borehole_folder,cpt_name,n_points,sand_layers,confidence,centre_Rf_percent,centre_qt_over_pa,std_log10_Rf,std_log10_qt_over_pa
+C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep\Wezep\B9_S3vsS3A_S11,2300654_S11,715,"Sand 1, Sand 2, Sand 3, Sand 4, Sand 5",1.52,0.8988170414817773,152.2313318237912,0.12235739984036494,0.2654149006134462
+C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep\Wezep\B9_S3vsS3A_S11,2300654_S3,486,"Sand 1, Sand 2, Sand 3",1.52,0.7024058230965204,127.16345355257516,0.09901420498706374,0.17993365657921825
+C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep\Wezep\B9_S3vsS3A_S11,2300654_S3A,759,"Sand 1, Sand 2, Sand 3, Sand 4, Sand 5, Sand 6",1.52,0.9121424130493051,160.04370525291148,0.1222302892628496,0.22929434709322552
