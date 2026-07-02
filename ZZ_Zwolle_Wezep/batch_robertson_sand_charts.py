@@ -14,7 +14,7 @@ from matplotlib.patches import Ellipse
 # =============================================================================
 
 # Root folder containing location folders, e.g. Zwolle, Wezep.
-PROJECT_ROOT = Path(r"C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep")
+PROJECT_ROOT = Path(r"C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep\Zwolle")
 
 # Folder where lengkeek_chart.py and lengkeek_chart_clean.jpg are located.
 CODE_ROOT = Path(r"C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep")

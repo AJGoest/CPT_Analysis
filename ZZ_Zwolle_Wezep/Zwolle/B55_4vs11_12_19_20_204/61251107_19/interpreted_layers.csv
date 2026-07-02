@@ -1,7 +1,0 @@
-top_elevation_m_nap,bottom_elevation_m_nap,top_depth_m,bottom_depth_m,soil_type,thickness_m,soil_layer_number,layer_id
-1.53,1.29,0.02,0.26,Unknown material,0.24000000000000002,1,Unknown material 1
-1.29,-1.3699999999999999,0.26,2.92,Sand,2.66,1,Sand 1
--1.3699999999999999,-1.95,2.92,3.5,Sand mixtures,0.5800000000000001,1,Sand mixtures 1
--1.95,-2.4699999999999998,3.5,4.02,Sand,0.5199999999999996,2,Sand 2
--2.4699999999999998,-30.69,4.02,32.24,Sand,28.220000000000002,3,Sand 3
--30.69,-33.730000000000004,32.24,35.28,Sand,3.039999999999999,4,Sand 4

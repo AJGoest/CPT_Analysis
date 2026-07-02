@@ -1,7 +1,0 @@
-index,soil_id,top_elevation_m_nap,bottom_elevation_m_nap,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
-1,Unknown material 1,1.53,1.29,2.03,,,,,,,no_nen_mapping_available
-2,Sand 1,1.29,-1.37,14.81,18.0,20.0,44.43,0.0,32.5,2.5,interpolated
-3,Sand mixtures 1,-1.37,-1.95,4.7,18.5,20.5,22.5,0.0,27.5,0.0,below_range_clipped
-4,Sand 2,-1.95,-2.47,6.36,17.1,19.1,19.09,0.0,30.3,0.3,interpolated
-5,Sand 3,-2.47,-30.69,21.74,19.0,21.0,77.01,0.0,35.9,5.9,interpolated
-6,Sand 4,-30.69,-33.73,24.67,19.5,21.5,90.92,0.0,37.3,7.3,interpolated

@@ -1,5 +1,0 @@
-soil_id,top_elevation_m_nap,bottom_elevation_m_nap,soil depth_m,qc_mpa_mean,gamma_unsat_kn_m3,gamma_sat_kn_m3,E100_mpa,c_prime_kpa,phi_prime_deg,dilatancy_deg,interpolation_status
-Clay & silt 1,1.43,1.11,0.32000000000000006,2.04,19.4,19.4,5.43,9.86,23.8,0.0,interpolated
-Sand 1,1.11,-2.23,3.3400000000000003,10.52,17.6,19.6,31.55,0.0,31.4,1.4,interpolated
-Sand 2,-2.23,-4.59,2.3599999999999994,9.9,17.5,19.5,29.7,0.0,31.2,1.2,interpolated
-Sand 3,-4.59,-33.59,28.999999999999996,20.79,18.9,20.9,72.51,0.0,35.4,5.4,interpolated
