@@ -65,6 +65,8 @@ def plot_cpt_profile(
     show_soil_layer_panel: bool = True,
     soil_color_groups: Optional[dict[str, str]] = None,
     soil_group_colors: Optional[dict[str, str]] = None,
+    qc_xlim: tuple[float, float] | None = None,
+    rf_xlim: tuple[float, float] | None = None,
 ) -> None:
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -100,9 +102,16 @@ def plot_cpt_profile(
     axes[0].set_ylabel(y_label)
     axes[0].grid(True)
 
+    if qc_xlim is not None:
+        axes[0].set_xlim(qc_xlim)
+    
     axes[1].plot(classified_df["rf_percent"], y)
     axes[1].set_xlabel("Rf [%]")
     axes[1].grid(True)
+
+    if rf_xlim is not None:
+        axes[1].set_xlim(rf_xlim)
+        print(f"Applied Rf x-limit: {rf_xlim}")
 
     cats = {name: i for i, name in enumerate(classified_df["soil_type"].dropna().unique())}
     axes[2].scatter([cats[s] for s in classified_df["soil_type"]], y, s=4)

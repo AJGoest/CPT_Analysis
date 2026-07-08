@@ -20,6 +20,9 @@ PROJECT_ROOT = Path(r"C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep\Zwolle")
 CODE_ROOT = Path(r"C:\AA_Thesis\VSCode\ZZ_Zwolle_Wezep")
 BACKGROUND_PATH = CODE_ROOT / "lengkeek_chart_clean.jpg"
 
+# Use only sand points above the deepest point reached by the shallowest CPT
+USE_COMMON_ROBERTSON_BOTTOM_LIMIT = True
+
 # Confidence ellipse levels to export.
 # 1.52 = approximately 68.3% for 2 variables.
 # 2.14 = approximately 90% for 2 variables.
@@ -112,12 +115,20 @@ def find_cpt_output_folders(borehole_folder: Path) -> list[Path]:
     return sorted(set(cpt_folders))
 
 
-def load_sand_points(cpt_folder: Path) -> pd.DataFrame:
-    """Load all exact Sand X points from one analysed CPT folder."""
+def load_sand_points(
+    cpt_folder: Path,
+    bottom_elevation_limit_m_nap: float | None = None,
+) -> pd.DataFrame:
+    """Load all exact Sand X points from one analysed CPT folder.
+
+    If bottom_elevation_limit_m_nap is given, only sand points above that
+    elevation are kept. This makes the Robertson comparison fair when CPTs
+    have different maximum depths.
+    """
     csv_path = cpt_folder / "classified_points.csv"
     df = pd.read_csv(csv_path)
 
-    required = {"rf_percent", "qt_over_pa", "layer_id"}
+    required = {"rf_percent", "qt_over_pa", "layer_id", "elevation_m_nap"}
     missing = required - set(df.columns)
 
     if missing:
@@ -127,11 +138,20 @@ def load_sand_points(cpt_folder: Path) -> pd.DataFrame:
 
     sand_df = df[df["layer_id"].apply(is_sand_layer_id)].copy()
 
-    sand_df = sand_df[["rf_percent", "qt_over_pa", "layer_id"]].dropna()
+    sand_df = sand_df[
+        ["rf_percent", "qt_over_pa", "layer_id", "elevation_m_nap"]
+    ].dropna()
+
     sand_df = sand_df[
         (sand_df["rf_percent"] > 0.0)
         & (sand_df["qt_over_pa"] > 0.0)
     ].copy()
+
+    # Keep only points above the comparison bottom limit
+    if bottom_elevation_limit_m_nap is not None:
+        sand_df = sand_df[
+            sand_df["elevation_m_nap"] >= bottom_elevation_limit_m_nap
+        ].copy()
 
     if sand_df.empty:
         return sand_df
@@ -142,6 +162,52 @@ def load_sand_points(cpt_folder: Path) -> pd.DataFrame:
     sand_df["log_qt_over_pa"] = np.log10(sand_df["qt_over_pa"].astype(float))
 
     return sand_df
+
+
+def get_common_robertson_bottom_elevation(cpt_folders: list[Path]) -> float | None:
+    """
+    Determine the common bottom elevation for Robertson comparison.
+
+    For each CPT:
+        deepest point = minimum elevation_m_nap
+
+    We then take the highest of those minima:
+        this is the deepest point reached by the shallowest CPT.
+
+    Example:
+        CPT A reaches -10 m NAP
+        CPT B reaches -20 m NAP
+        CPT C reaches -15 m NAP
+
+        -> common bottom = -10 m NAP
+
+    So no CPT contributes sand points deeper than -10 m NAP.
+    """
+    deepest_points = []
+
+    for cpt_folder in cpt_folders:
+        csv_path = cpt_folder / "classified_points.csv"
+
+        if not csv_path.exists():
+            continue
+
+        df = pd.read_csv(csv_path)
+
+        if "elevation_m_nap" not in df.columns:
+            continue
+
+        elevations = pd.to_numeric(df["elevation_m_nap"], errors="coerce").dropna()
+
+        if elevations.empty:
+            continue
+
+        deepest_points.append(float(elevations.min()))
+
+    if not deepest_points:
+        return None
+
+    # Highest of the deepest points = shallowest CPT bottom
+    return max(deepest_points)
 
 
 def add_covariance_ellipse(ax, x, y, n_std: float, **kwargs) -> None:
@@ -181,6 +247,7 @@ def add_covariance_ellipse(ax, x, y, n_std: float, **kwargs) -> None:
 def plot_borehole_robertson_chart(
     borehole_folder: Path,
     confidence: float,
+    robertson_bottom_elevation_m_nap: float | None = None,
 ) -> Path | None:
     """Create one Robertson/Lengkeek chart for one borehole folder."""
     cpt_folders = find_cpt_output_folders(borehole_folder)
@@ -205,7 +272,14 @@ def plot_borehole_robertson_chart(
         colour = CPT_COLOURS[cpt_index % len(CPT_COLOURS)]
 
         try:
-            sand_data = load_sand_points(cpt_folder)
+            sand_data = load_sand_points(
+                cpt_folder,
+                bottom_elevation_limit_m_nap=(
+                    robertson_bottom_elevation_m_nap
+                    if USE_COMMON_ROBERTSON_BOTTOM_LIMIT
+                    else None
+                ),
+            )
         except Exception as exc:
             print(f"Warning: could not load {cpt_folder}: {exc}")
             continue
@@ -283,6 +357,12 @@ def plot_borehole_robertson_chart(
         f"{borehole_folder.name} | confidence = {confidence}"
     )
 
+    if USE_COMMON_ROBERTSON_BOTTOM_LIMIT and robertson_bottom_elevation_m_nap is not None:
+        title += (
+            f"\nComparison limited to elevations above "
+            f"{robertson_bottom_elevation_m_nap:.2f} m NAP"
+        )
+
     ax.set_title(title)
     ax.legend(fontsize=7, loc="best")
 
@@ -330,10 +410,24 @@ def main() -> None:
         print(f"  {folder}")
 
     for borehole_folder in borehole_folders:
+        cpt_folders = find_cpt_output_folders(borehole_folder)
+
+        robertson_bottom_elevation_m_nap = get_common_robertson_bottom_elevation(
+            cpt_folders
+        )
+
+        print("")
+        print(f"Borehole folder: {borehole_folder.name}")
+        print(
+            "Common Robertson comparison bottom elevation:",
+            robertson_bottom_elevation_m_nap,
+        )
+
         for confidence in CONFIDENCE_LEVELS:
             plot_borehole_robertson_chart(
                 borehole_folder=borehole_folder,
                 confidence=confidence,
+                robertson_bottom_elevation_m_nap=robertson_bottom_elevation_m_nap,
             )
 
     print("Done.")

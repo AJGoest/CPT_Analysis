@@ -38,7 +38,7 @@ import json
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\Pre-boren\S1022749_CPTU1-4.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-2.gef"
 # GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"'
-GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Zwolle\61251107_205.GEF"
+GEF_FILE = r"C:\AA_Thesis\CPT_Measurements\Zwolle\61251107_20.GEF"
 
 
 
@@ -80,6 +80,11 @@ OUTPUT_DIR = folder_name
 
 # Minimum layer thickness for merging thin interpreted layers.
 MIN_LAYER_THICKNESS_M = 0.3
+
+# Settings figures of soil classification and stratigraphy. If you do not want one just place None. 
+QC_XLIM = (0.0, 80.0)
+RF_XLIM = (0.0, 9.0)
+
 
 
 # Use Lengkeek Bqt-Isbt pore-pressure filter when u2 and groundwater level
@@ -407,6 +412,8 @@ def main() -> None:
         show_soil_layer_panel=SHOW_SOIL_LAYER_PANEL,
         soil_color_groups=SOIL_COLOR_GROUPS,
         soil_group_colors=SOIL_GROUP_COLORS,
+        qc_xlim=QC_XLIM,
+        rf_xlim=RF_XLIM,
     )
 
     plot_lengkeek_chart(
