@@ -243,6 +243,20 @@ def add_covariance_ellipse(ax, x, y, n_std: float, **kwargs) -> None:
 
     ax.add_patch(ellipse)
 
+def get_short_cpt_name(cpt_folder: Path) -> str:
+    """
+    Convert CPT output folder names to shorter plot labels.
+
+    Examples:
+        2300654_S13 -> S13
+        2538943_1   -> 1
+    """
+    name = cpt_folder.name
+
+    if "_" in name:
+        return name.split("_")[-1]
+
+    return name
 
 def plot_borehole_robertson_chart(
     borehole_folder: Path,
@@ -298,7 +312,7 @@ def plot_borehole_robertson_chart(
             s=POINT_SIZE,
             alpha=POINT_ALPHA,
             color=colour,
-            label=f"{cpt_folder.name} points",
+            label=f"CPT {get_short_cpt_name(cpt_folder)} points",
             zorder=2,
         )
 
@@ -313,7 +327,7 @@ def plot_borehole_robertson_chart(
             marker="x",
             linewidths=3,
             color=colour,
-            label=f"{cpt_folder.name} centre",
+            label=f"CPT {get_short_cpt_name(cpt_folder)} centre",
             zorder=4,
         )
 
@@ -330,7 +344,8 @@ def plot_borehole_robertson_chart(
         plotted_anything = True
 
         stats_rows.append({
-            "cpt_name": cpt_folder.name,
+            "cpt_name": get_short_cpt_name(cpt_folder),
+            "original_cpt_folder": cpt_folder.name,
             "n_points": len(sand_data),
             "centre_rf_percent": 10 ** x_mean,
             "centre_qt_over_pa": 10 ** y_mean,
@@ -339,7 +354,7 @@ def plot_borehole_robertson_chart(
         })
 
         print(
-            f"{cpt_folder.name}: "
+            f"{get_short_cpt_name(cpt_folder)}: "
             f"n = {len(sand_data)}, "
             f"centre Rf = {10**x_mean:.3f} %, "
             f"centre qt/pa = {10**y_mean:.3f}"
@@ -363,7 +378,7 @@ def plot_borehole_robertson_chart(
             f"{robertson_bottom_elevation_m_nap:.2f} m NAP"
         )
 
-    ax.set_title(title)
+    # ax.set_title(title)
     ax.legend(fontsize=7, loc="best")
 
     fig.tight_layout()
