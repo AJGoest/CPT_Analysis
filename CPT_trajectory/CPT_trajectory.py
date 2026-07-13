@@ -14,9 +14,11 @@ from gef_parser_trajectory import read_gef
 # USER SETTINGS
 # ============================================================
 
-GEF_FILE = Path(
-    r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"
-)
+# multiple files can be added or just one file can be used. The script will combine the trajectories into one plot.
+GEF_FILES = [
+    Path(r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-4.gef"),
+    Path(r"C:\AA_Thesis\CPT_Measurements\Campus-Zuid\After-boren\S1022749_CPTU2-2.gef")
+]
 
 # Use corrected_depth if available, otherwise depth_m.
 USE_CORRECTED_DEPTH = True
@@ -70,18 +72,16 @@ def get_cpt_id_from_gef_filename(gef_file: Path) -> str:
     match = re.search(r"CPTU?(\d+-\d+)", stem, flags=re.IGNORECASE)
 
     if not match:
-        raise ValueError(f"Could not find CPT number in filename: {gef_file.name}")
+        return stem
 
     return f"CPT{match.group(1)}"
 
 
-CPT_ID = get_cpt_id_from_gef_filename(GEF_FILE)
-FIGURE_BASENAME = f"{CPT_ID}_cone_trajectory"
-
-FIGURE_FOLDER = Path(f"{CPT_ID}_figures")
+# Set names for the combined multi-file outputs
+FIGURE_BASENAME = "combined_cone_trajectory"
+FIGURE_FOLDER = Path("Combined_CPT_figures")
 FIGURE_FOLDER.mkdir(parents=True, exist_ok=True)
 
-EXPORT_FILE = FIGURE_FOLDER / f"{FIGURE_BASENAME}.xlsx"
 
 # column remover helpers
 
@@ -261,81 +261,34 @@ def save_or_close(filename: str):
     plt.close()
 
 
-def add_borehole_interval_to_2d_x_plot(borehole_x, borehole_y):
-    """
-    Add borehole x-position to x-movement plot.
-
-    The annotation also states the y-offset, because the borehole is not
-    necessarily located on y = 0.
-    """
-    if not SHOW_BOREHOLE:
-        return
-
-    plt.axvline(
-        x=borehole_x,
-        linestyle="--",
-        linewidth=2,
-        label=(
-            f"Borehole centre x = {borehole_x:.2f} m "
-            f"(y offset = {borehole_y:.2f} m)"
-        ),
-    )
-
-    plt.axvspan(
-        borehole_x - BOREHOLE_RADIUS,
-        borehole_x + BOREHOLE_RADIUS,
-        alpha=0.15,
-        label=f"Borehole x-range, radius = {BOREHOLE_RADIUS:.2f} m",
-    )
-
-
-def add_borehole_interval_to_2d_y_plot(borehole_x, borehole_y):
-    """
-    Add borehole y-position to y-movement plot.
-
-    The annotation also states the x-offset.
-    """
-    if not SHOW_BOREHOLE:
-        return
-
-    plt.axvline(
-        x=borehole_y,
-        linestyle="--",
-        linewidth=2,
-        label=(
-            f"Borehole centre y = {borehole_y:.2f} m "
-            f"(x offset = {borehole_x:.2f} m)"
-        ),
-    )
-
-    plt.axvspan(
-        borehole_y - BOREHOLE_RADIUS,
-        borehole_y + BOREHOLE_RADIUS,
-        alpha=0.15,
-        label=f"Borehole y-range, radius = {BOREHOLE_RADIUS:.2f} m",
-    )
-
-
 # ============================================================
 # 2D PLOTS
 # ============================================================
 
-def plot_x_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
-    vertical_col, vertical_label, invert_y = get_vertical_axis(df)
-
+def plot_x_movement(trajectories: list[dict], borehole_x: float, borehole_y: float):
     plt.figure(figsize=(6, 8))
-    plt.plot(
-        df["x_from_borehole_m"],
-        df[vertical_col],
-        label="CPT trajectory",
-    )
+    
+    invert_y = False
+    vertical_label = ""
+    
+    for traj in trajectories:
+        df = traj["df"]
+        cpt_id = traj["cpt_id"]
+        vertical_col, vertical_label, invert_y = get_vertical_axis(df)
+        
+        plt.plot(
+            df["x_from_borehole_m"],
+            df[vertical_col],
+            label=f"{cpt_id} trajectory",
+        )
 
     if SHOW_BOREHOLE:
         plt.axvline(
             x=0.0,
             linestyle="--",
-            linewidth=2,
+            linewidth=1,
             label="Borehole centre x = 0.00 m",
+            color="black"
         )
 
         plt.axvspan(
@@ -343,15 +296,13 @@ def plot_x_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             BOREHOLE_RADIUS,
             alpha=0.15,
             label=f"Borehole radius = {BOREHOLE_RADIUS:.2f} m",
+            color="green"
         )
 
     plt.xlabel("CPT x-position relative to borehole centre [m]")
     plt.xlim(-2, 6.25)
     plt.ylabel(vertical_label)
-    plt.title(
-        f"{CPT_ID} x-position with depth\n"
-        f"Borehole-centred coordinates | CPT start x = {-borehole_x:.2f} m"
-    )
+    plt.title("Comparison of CPT x-position with depth\nBorehole-centred coordinates")
     plt.grid(True)
     plt.legend()
 
@@ -361,22 +312,30 @@ def plot_x_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
     plt.tight_layout()
     save_or_close(f"{FIGURE_BASENAME}_x_movement.png")
 
-def plot_y_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
-    vertical_col, vertical_label, invert_y = get_vertical_axis(df)
-
+def plot_y_movement(trajectories: list[dict], borehole_x: float, borehole_y: float):
     plt.figure(figsize=(6, 8))
-    plt.plot(
-        df["y_from_borehole_m"],
-        df[vertical_col],
-        label="CPT trajectory",
-    )
+    
+    invert_y = False
+    vertical_label = ""
+    
+    for traj in trajectories:
+        df = traj["df"]
+        cpt_id = traj["cpt_id"]
+        vertical_col, vertical_label, invert_y = get_vertical_axis(df)
+        
+        plt.plot(
+            df["y_from_borehole_m"],
+            df[vertical_col],
+            label=f"{cpt_id} trajectory",
+        )
 
     if SHOW_BOREHOLE:
         plt.axvline(
             x=0.0,
             linestyle="--",
-            linewidth=2,
+            linewidth=1,
             label="Borehole centre y = 0.00 m",
+            color="black"
         )
 
         plt.axvspan(
@@ -384,15 +343,13 @@ def plot_y_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             BOREHOLE_RADIUS,
             alpha=0.15,
             label=f"Borehole radius = {BOREHOLE_RADIUS:.2f} m",
+            color="green"
         )
 
     plt.xlabel("CPT y-position relative to borehole centre [m]")
     plt.xlim(-2, 6.25)
     plt.ylabel(vertical_label)
-    plt.title(
-        f"{CPT_ID} y-position with depth\n"
-        f"Borehole-centred coordinates | CPT start y = {-borehole_y:.2f} m"
-    )
+    plt.title("Comparison of CPT y-position with depth\nBorehole-centred coordinates")
     plt.grid(True)
     plt.legend()
 
@@ -407,23 +364,34 @@ def plot_y_movement(df: pd.DataFrame, borehole_x: float, borehole_y: float):
 # 3D PLOT WITH BOREHOLE CYLINDER
 # ============================================================
 
-def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
-    vertical_col, vertical_label, invert_z = get_vertical_axis(df)
-
+def plot_3d_trajectory(trajectories: list[dict], borehole_x: float, borehole_y: float):
     fig = plt.figure(figsize=(9, 8))
     ax = fig.add_subplot(111, projection="3d")
 
-    ax.plot(
-        df["x_from_borehole_m"],
-        df["y_from_borehole_m"],
-        df[vertical_col],
-        linewidth=2,
-        label="CPT trajectory",
-    )
+    all_z_min = []
+    all_z_max = []
+    invert_z = False
+    vertical_label = ""
 
-    if SHOW_BOREHOLE:
-        z_min = df[vertical_col].min()
-        z_max = df[vertical_col].max()
+    for traj in trajectories:
+        df = traj["df"]
+        cpt_id = traj["cpt_id"]
+        vertical_col, vertical_label, invert_z = get_vertical_axis(df)
+        
+        all_z_min.append(df[vertical_col].min())
+        all_z_max.append(df[vertical_col].max())
+
+        ax.plot(
+            df["x_from_borehole_m"],
+            df["y_from_borehole_m"],
+            df[vertical_col],
+            linewidth=2,
+            label=f"{cpt_id} trajectory",
+        )
+
+    if SHOW_BOREHOLE and trajectories:
+        z_min = min(all_z_min)
+        z_max = max(all_z_max)
 
         theta = np.linspace(0, 2 * np.pi, 80)
         z_cyl = np.linspace(z_min, z_max, 60)
@@ -437,8 +405,9 @@ def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             x_cyl,
             y_cyl,
             z_grid,
-            alpha=0.30,
+            alpha=0.20,
             linewidth=0,
+            color="green",
         )
 
         ax.plot(
@@ -446,8 +415,9 @@ def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             [0.0, 0.0],
             [z_min, z_max],
             linestyle="--",
-            linewidth=2,
+            linewidth=1,
             label="Borehole centreline",
+            color="black"
         )
 
     ax.set_xlabel("x relative to borehole centre [m]")
@@ -455,10 +425,7 @@ def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
     ax.set_ylabel("y relative to borehole centre [m]")
     ax.set_ylim(-1.25, 1.25)
     ax.set_zlabel(vertical_label)
-    ax.set_title(
-        f"{CPT_ID} cone trajectory with borehole\n"
-        f"Borehole-centred coordinates"
-    )
+    ax.set_title("Combined CPT cone trajectory with borehole\nBorehole-centred coordinates")
     ax.view_init(elev=20, azim=-100)
 
     if invert_z:
@@ -468,7 +435,6 @@ def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
     plt.tight_layout()
 
     if SAVE_FIGURES:
-        FIGURE_FOLDER.mkdir(parents=True, exist_ok=True)
         path = FIGURE_FOLDER / f"{FIGURE_BASENAME}_3d.png"
         plt.savefig(path, dpi=300, bbox_inches="tight")
         print(f"Saved: {path}")
@@ -483,32 +449,28 @@ def plot_3d_trajectory(df: pd.DataFrame, borehole_x: float, borehole_y: float):
 # OPTIONAL TOP VIEW
 # ============================================================
 
-def plot_top_view(df: pd.DataFrame, borehole_x: float, borehole_y: float):
-    """
-    Plot x-y top view with the borehole centre as origin.
-
-    Coordinate system:
-        Borehole centre = (0, 0)
-        CPT start       = (-borehole_x, -borehole_y)
-        CPT trajectory  = x_from_borehole_m, y_from_borehole_m
-    """
+def plot_top_view(trajectories: list[dict], borehole_x: float, borehole_y: float):
     plt.figure(figsize=(7, 7))
 
-    plt.plot(
-        df["x_from_borehole_m"],
-        df["y_from_borehole_m"],
-        linewidth=2,
-        label="CPT trajectory",
-    )
+    for traj in trajectories:
+        df = traj["df"]
+        cpt_id = traj["cpt_id"]
+        
+        plt.plot(
+            df["x_from_borehole_m"],
+            df["y_from_borehole_m"],
+            linewidth=2,
+            label=f"{cpt_id} trajectory",
+        )
 
-    # CPT start location in borehole-centred coordinates
-    plt.scatter(
-        [-borehole_x],
-        [-borehole_y],
-        marker="o",
-        s=60,
-        label="CPT start",
-    )
+        # CPT start location in borehole-centred coordinates
+        plt.scatter(
+            [-traj["b_x"]],
+            [-traj["b_y"]],
+            marker="o",
+            s=60,
+            label=f"{cpt_id} start",
+        )
 
     if SHOW_BOREHOLE:
         theta = np.linspace(0, 2 * np.pi, 200)
@@ -520,6 +482,7 @@ def plot_top_view(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             y_circle,
             linewidth=2,
             label="Borehole wall",
+            color="green"
         )
 
         plt.scatter(
@@ -528,15 +491,12 @@ def plot_top_view(df: pd.DataFrame, borehole_x: float, borehole_y: float):
             marker="x",
             s=80,
             label="Borehole centre",
+            color="black"
         )
 
     plt.xlabel("x relative to borehole centre [m]")
     plt.ylabel("y relative to borehole centre [m]")
-    plt.title(
-        f"{CPT_ID} top view trajectory\n"
-        f"Borehole-centred coordinates | "
-        f"CPT start: x = {-borehole_x:.2f} m, y = {-borehole_y:.2f} m"
-    )
+    plt.title("Combined top view trajectory\nBorehole-centred coordinates")
     plt.axis("equal")
     plt.ylim(-2, 2)
     plt.xlim(-1, 6.25)
@@ -552,63 +512,62 @@ def plot_top_view(df: pd.DataFrame, borehole_x: float, borehole_y: float):
 # ============================================================
 
 def main():
-    gef = read_gef(GEF_FILE)
-    df = gef.dataframe.copy()
+    trajectories = []
+    base_borehole_x, base_borehole_y = None, None
 
-    print("GEF metadata")
-    print(f"  GEF file: {GEF_FILE}")
-    print(f"  CPT ID: {CPT_ID}")
-    print(f"  x header coordinate: {gef.x}")
-    print(f"  y header coordinate: {gef.y}")
-    print(f"  ground level [m NAP]: {gef.ground_level_m_nap}")
-    print(f"  dataframe columns: {df.columns.tolist()}")
+    print("GEF metadata processing:")
+    for gef_file in GEF_FILES:
+        cpt_id = get_cpt_id_from_gef_filename(gef_file)
+        gef = read_gef(gef_file)
+        df = gef.dataframe.copy()
 
-    df_traj = calculate_cpt_trajectory(df)
+        print(f"\nProcessing: {gef_file.name}")
+        print(f"  CPT ID: {cpt_id}")
+        print(f"  x header coordinate: {gef.x}")
+        print(f"  y header coordinate: {gef.y}")
+        print(f"  ground level [m NAP]: {gef.ground_level_m_nap}")
 
-    borehole_x, borehole_y = get_borehole_position_relative_to_cpt(gef)
+        df_traj = calculate_cpt_trajectory(df)
+        borehole_x, borehole_y = get_borehole_position_relative_to_cpt(gef)
+        
+        if base_borehole_x is None:
+            base_borehole_x = borehole_x
+            base_borehole_y = borehole_y
 
-    df_traj["x_from_borehole_m"] = df_traj["x_movement_m"] - borehole_x
-    df_traj["y_from_borehole_m"] = df_traj["y_movement_m"] - borehole_y
+        df_traj["x_from_borehole_m"] = df_traj["x_movement_m"] - borehole_x
+        df_traj["y_from_borehole_m"] = df_traj["y_movement_m"] - borehole_y
 
-    df_traj["cpt_start_x_from_borehole_m"] = -borehole_x
-    df_traj["cpt_start_y_from_borehole_m"] = -borehole_y
-    df_traj["borehole_x_from_borehole_m"] = 0.0
-    df_traj["borehole_y_from_borehole_m"] = 0.0
-    df_traj["borehole_radius_m"] = BOREHOLE_RADIUS
+        df_traj["cpt_start_x_from_borehole_m"] = -borehole_x
+        df_traj["cpt_start_y_from_borehole_m"] = -borehole_y
+        df_traj["borehole_x_from_borehole_m"] = 0.0
+        df_traj["borehole_y_from_borehole_m"] = 0.0
+        df_traj["borehole_radius_m"] = BOREHOLE_RADIUS
 
-    print("\nBorehole position relative to CPT start:")
-    print(f"  borehole_x_relative = {borehole_x:.3f} m")
-    print(f"  borehole_y_relative = {borehole_y:.3f} m")
-    print(f"  borehole_radius      = {BOREHOLE_RADIUS:.3f} m")
+        # Add absolute coordinates if GEF header x/y are available
+        if gef.x is not None:
+            df_traj["x_absolute_m"] = gef.x + df_traj["x_movement_m"]
+        if gef.y is not None:
+            df_traj["y_absolute_m"] = gef.y + df_traj["y_movement_m"]
 
-    # Add absolute coordinates if GEF header x/y are available
-    if gef.x is not None:
-        df_traj["x_absolute_m"] = gef.x + df_traj["x_movement_m"]
+        trajectories.append({
+            "df": df_traj,
+            "cpt_id": cpt_id,
+            "b_x": borehole_x,
+            "b_y": borehole_y
+        })
 
-    if gef.y is not None:
-        df_traj["y_absolute_m"] = gef.y + df_traj["y_movement_m"]
+        if EXPORT_EXCEL:
+            df_export = remove_unnecessary_export_columns(df_traj)
+            export_file = FIGURE_FOLDER / f"{cpt_id}_cone_trajectory.xlsx"
+            df_export.to_excel(export_file, index=False)
+            print(f"  Exported trajectory data: {export_file}")
 
-    print("\nCalculated trajectory preview:")
-    preview_cols = [
-        "trajectory_depth_m",
-        "x_movement_m",
-        "y_movement_m",
-    ]
-    print(df_traj[preview_cols].head())
-
-    plot_x_movement(df_traj, borehole_x, borehole_y)
-    plot_y_movement(df_traj, borehole_x, borehole_y)
-    plot_3d_trajectory(df_traj, borehole_x, borehole_y)
-    plot_top_view(df_traj, borehole_x, borehole_y)
-
-    df_traj["borehole_x_relative_m"] = borehole_x
-    df_traj["borehole_y_relative_m"] = borehole_y
-    df_traj["borehole_radius_m"] = BOREHOLE_RADIUS
-
-    if EXPORT_EXCEL:
-        df = remove_unnecessary_export_columns(df_traj)
-        df.to_excel(EXPORT_FILE, index=False)
-        print(f"Exported trajectory data: {EXPORT_FILE}")
+    if trajectories:
+        print("\nGenerating combined plots...")
+        plot_x_movement(trajectories, base_borehole_x, base_borehole_y)
+        plot_y_movement(trajectories, base_borehole_x, base_borehole_y)
+        plot_3d_trajectory(trajectories, base_borehole_x, base_borehole_y)
+        plot_top_view(trajectories, base_borehole_x, base_borehole_y)
 
 
 if __name__ == "__main__":
